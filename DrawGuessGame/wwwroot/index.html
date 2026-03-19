@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çizim Tahmin Oyunu - Ana Sayfa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Davet Bildirimleri -->
+        <div id="inviteNotifications" class="invite-notifications"></div>
+
+        <!-- Giriş/Kayıt Ekranı -->
+        <div id="authScreen" class="screen active">
+            <div class="auth-box">
+                <h1>🎨 Çizim & Tahmin</h1>
+                <p class="subtitle">Çiz, tahmin et, eğlen! Arkadaşlarınla sınırsız eğlence seni bekliyor! 🎮✨</p>
+                
+                <!-- Giriş Formu -->
+                <div id="loginForm" class="auth-form">
+                    <h2>🚀 Hadi Başlayalım!</h2>
+                    <div class="input-group">
+                        <input type="text" id="loginUsername" placeholder="Kullanıcı adı veya email">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="loginPassword" placeholder="Şifre">
+                    </div>
+                    <button id="loginBtn" class="btn btn-primary">Giriş Yap</button>
+                    <p class="switch-form">Hesabın yok mu? <a href="#" id="showRegister">Kayıt Ol</a></p>
+                </div>
+
+                <!-- Kayıt Formu -->
+                <div id="registerForm" class="auth-form" style="display: none;">
+                    <h2>✨ Yeni Hesap Oluştur</h2>
+                    <div class="input-group">
+                        <input type="text" id="registerUsername" placeholder="Kullanıcı adı">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="registerEmail" placeholder="Email">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="registerPassword" placeholder="Şifre (min 6 karakter)">
+                    </div>
+                    <button id="registerBtn" class="btn btn-primary">Kayıt Ol</button>
+                    <p class="switch-form">Hesabın var mı? <a href="#" id="showLogin">Giriş Yap</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ana Menü Ekranı -->
+        <div id="menuScreen" class="screen">
+            <div class="menu-container">
+                <div class="menu-header">
+                    <h1>🎨 Hoş Geldin, <span id="currentUsername"></span>!</h1>
+                    <button id="logoutBtn" class="btn btn-danger">Çıkış Yap</button>
+                </div>
+
+                <div class="menu-grid">
+                    <!-- Oyun Başlat -->
+                    <div class="menu-card">
+                        <h2>🎮 Oyun Oyna</h2>
+                        <p>Kelime çiz, tahmin et! Klasik veya Gartic Phone modu ile sınırsız eğlence!</p>
+                        <div class="input-group">
+                            <input type="text" id="roomCode" placeholder="Oda kodu girin veya boş bırakın" maxlength="6">
+                        </div>
+                        <button id="joinGameBtn" class="btn btn-primary">Oyuna Katıl</button>
+                    </div>
+
+                    <!-- Arkadaşlar -->
+                    <div class="menu-card">
+                        <h2>👥 Arkadaşlarım</h2>
+                        <p>Yeni arkadaşlar ekle, davetleri yönet ve birlikte oyna!</p>
+                        <button id="showFriendsBtn" class="btn btn-primary">Arkadaşları Göster</button>
+                    </div>
+
+                    <!-- Sohbet -->
+                    <div class="menu-card">
+                        <h2>💬 Mesajlaşma</h2>
+                        <p>Arkadaşlarınla özel mesajlaş, grup sohbetleri oluştur!</p>
+                        <button id="showChatBtn" class="btn btn-primary">Sohbete Başla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arkadaşlar Ekranı -->
+        <div id="friendsScreen" class="screen">
+            <div class="friends-container">
+                <div class="screen-header">
+                    <h2>👥 Arkadaşlar</h2>
+                    <button id="backToMenuFromFriends" class="btn btn-secondary">Geri</button>
+                </div>
+
+                <div class="friends-tabs">
+                    <button class="tab-btn active" data-tab="myFriends">Arkadaşlarım</button>
+                    <button class="tab-btn" data-tab="requests">İstekler</button>
+                    <button class="tab-btn" data-tab="search">Ara</button>
+                </div>
+
+                <!-- Arkadaşlarım Tab -->
+                <div id="myFriends" class="tab-content active">
+                    <div id="friendsList" class="friends-list"></div>
+                </div>
+
+                <!-- İstekler Tab -->
+                <div id="requests" class="tab-content">
+                    <div id="requestsList" class="friends-list"></div>
+                </div>
+
+                <!-- Ara Tab -->
+                <div id="search" class="tab-content">
+                    <div class="input-group">
+                        <input type="text" id="searchUsername" placeholder="Kullanıcı adı ara...">
+                        <button id="searchBtn" class="btn btn-primary">Ara</button>
+                    </div>
+                    <div id="searchResults" class="friends-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Ekranı -->
+        <div id="chatScreen" class="screen">
+            <div class="chat-container-full">
+                <div class="screen-header">
+                    <h2>💬 Sohbet & Gruplar</h2>
+                    <button id="backToMenuFromChat" class="btn btn-secondary">Geri</button>
+                </div>
+
+                <div class="chat-layout">
+                    <div class="chat-friends-list">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="margin: 0;">Kişiler & Gruplar</h3>
+                            <button id="createGroupBtn" class="btn btn-primary" style="padding: 6px 12px; font-size: 0.9em;">+ Grup</button>
+                        </div>
+                        
+                        <div class="chat-tabs" style="display: flex; gap: 5px; margin-bottom: 15px;">
+                            <button class="chat-tab-btn active" data-tab="friends" style="flex: 1; padding: 8px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9em;">Arkadaşlar</button>
+                            <button class="chat-tab-btn" data-tab="groups" style="flex: 1; padding: 8px; background: #f8f9fa; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9em;">Gruplar</button>
+                        </div>
+                        
+                        <div id="chatFriendsTab" class="chat-tab-content">
+                            <div id="chatFriendsList"></div>
+                        </div>
+                        
+                        <div id="chatGroupsTab" class="chat-tab-content" style="display: none;">
+                            <div id="groupsList"></div>
+                        </div>
+                    </div>
+                    <div class="chat-messages-area">
+                        <div class="chat-header">
+                            <h3 id="chatWithUsername">Bir arkadaş seçin</h3>
+                        </div>
+                        <div id="chatMessagesContainer">
+                            <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #999;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 4em; margin-bottom: 20px;">💬</div>
+                                    <p style="font-size: 1.2em;">Sohbet başlatmak için soldaki listeden bir arkadaş seçin</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                            <input type="text" id="chatMessageInput" placeholder="Mesajınızı yazın...">
+                            <button id="sendMessageBtn" class="btn btn-primary">Gönder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Oyun Ekranı -->
+        <div id="gameScreen" class="screen">
+            <!-- Lobby Bölümü -->
+            <div id="lobbySection" class="lobby-section">
+                <div class="lobby-main-container">
+                    <div class="lobby-container">
+                        <div class="lobby-header">
+                            <h2>🎮 Oyun Lobisi</h2>
+                            <div>
+                                <span class="room-code">Oda Kodu: <strong id="lobbyRoomCode"></strong></span>
+                                <button id="leaveLobbyBtn" class="btn btn-danger btn-small">Ayrıl</button>
+                            </div>
+                        </div>
+
+                    <div class="lobby-info">
+                        <p>🎯 Arkadaşlarını davet et ve eğlence başlasın! Oda kodunu paylaş veya yanındaki listeden seç.</p>
+                    </div>
+
+                    <div class="lobby-game-mode" id="gameModeSelector" style="margin-bottom: 20px;">
+                        <h4 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 15px; font-size: 1.2em; font-weight: 700;">🎮 Oyun Modunu Seç</h4>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="mode-btn active" data-mode="Classic">
+                                <div class="mode-emoji" style="font-size: 1.8em;">🎨</div>
+                                <div class="mode-title" style="font-weight: 700; font-size: 1.1em; margin: 8px 0;">Klasik Mod</div>
+                                <div class="mode-desc" style="font-size: 0.85em; line-height: 1.4;">Bir oyuncu çizer, diğerleri tahmin eder!</div>
+                            </button>
+                            <button class="mode-btn" data-mode="GarticPhone">
+                                <div class="mode-emoji" style="font-size: 1.8em;">🔗</div>
+                                <div class="mode-title" style="font-weight: 700; font-size: 1.1em; margin: 8px 0;">Gartic Phone</div>
+                                <div class="mode-desc" style="font-size: 0.85em; line-height: 1.4;">Kelime yaz → Çiz → Tahmin et → Çiz...</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lobby-players">
+                            <h3>Oyuncular (<span id="lobbyPlayerCount">0</span>)</h3>
+                            <div id="lobbyPlayersList"></div>
+                        </div>
+
+                        <div class="lobby-actions">
+                            <button id="readyBtn" class="btn btn-primary" style="display: none;">
+                                Hazırım ✓
+                            </button>
+                            <button id="startGameBtn" class="btn btn-primary" style="display: none;">
+                                Oyunu Başlat 🎮
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Arkadaş Davet Paneli -->
+                    <div class="lobby-friends-panel">
+                        <h3>👥 Arkadaşlar</h3>
+                        <div id="lobbyFriendsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oyun Bölümü -->
+            <div id="gamePlaySection" style="display: none;">
+                <div class="game-header">
+                    <div class="room-info">
+                        <span class="room-code">Oda: <strong id="currentRoomCode"></strong></span>
+                        <button id="leaveGameBtn" class="btn btn-danger">Oyundan Ayrıl</button>
+                    </div>
+                    <div class="game-status">
+                        <h2 id="gameStatus">Oyun başlıyor...</h2>
+                        <p id="wordDisplay"></p>
+                    </div>
+                    <div class="players-count">
+                        <span id="playerCount">0 Oyuncu</span>
+                    </div>
+                </div>
+
+                <div class="game-content">
+                <div class="side-panel left-panel">
+                    <h3>🏆 Oyuncular</h3>
+                    <div id="playersList"></div>
+                </div>
+
+                <div class="main-panel">
+                    <div class="canvas-container">
+                        <canvas id="canvas" width="800" height="600"></canvas>
+                    </div>
+                    <div id="drawingTools" class="drawing-tools">
+                        <div class="tool-group">
+                            <label>Renk:</label>
+                            <input type="color" id="colorPicker" value="#000000">
+                            <button class="color-preset" data-color="#000000" style="background: #000000"></button>
+                            <button class="color-preset" data-color="#FF0000" style="background: #FF0000"></button>
+                            <button class="color-preset" data-color="#00FF00" style="background: #00FF00"></button>
+                            <button class="color-preset" data-color="#0000FF" style="background: #0000FF"></button>
+                            <button class="color-preset" data-color="#FFFF00" style="background: #FFFF00"></button>
+                            <button class="color-preset" data-color="#FF00FF" style="background: #FF00FF"></button>
+                            <button class="color-preset" data-color="#00FFFF" style="background: #00FFFF"></button>
+                            <button class="color-preset" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #ccc"></button>
+                        </div>
+                        <div class="tool-group">
+                            <label>Kalınlık:</label>
+                            <input type="range" id="brushSize" min="1" max="20" value="3">
+                            <span id="sizeDisplay">3</span>
+                        </div>
+                        <div class="tool-group">
+                            <button id="clearBtn" class="btn btn-danger">🗑️ Temizle</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel right-panel">
+                    <h3>💬 Tahminler</h3>
+                    <div id="chatMessages"></div>
+                    <div class="chat-input">
+                        <input type="text" id="guessInput" placeholder="Tahmininizi yazın..." maxlength="50">
+                        <button id="guessBtn" class="btn btn-primary">Gönder</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
